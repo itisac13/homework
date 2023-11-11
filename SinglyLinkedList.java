@@ -2,18 +2,9 @@ import java.util.Comparator;
 
 public class SinglyLinkedList<T> {
 
-    // Node class representing each element in the list
-    private static class Node<T> {
-        T data;
-        Node<T> next;
 
-        public Node(T data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
 
-    private Node<T> head; // Reference to the first node in the list
+    public Node<T> head; // Reference to the first node in the list
 
     public SinglyLinkedList() {
         this.head = null;
@@ -55,14 +46,69 @@ public class SinglyLinkedList<T> {
         System.out.println(output);
     }
 
-    public void printReverse() {
+    public String toString()
+    {
         String output = "[";
         Node<T> current = head;
         while (current != null) {
-            output += (", " + current.data);
+            output += (current.data + ", ");
             current = current.next;
         }
         output += "]";
+        return output;
+    }
+
+    public void setElementAt(int index, T data)
+    {
+        if (index == 0)
+        {
+            head.data = data;
+            return;
+        }
+        else
+        {
+            Node<T> current = head;
+            for (int i = 0; i <= index; i++) {
+                if (i == index)
+                {
+                    current.data = data;
+                    return;
+                }
+                // output += (current.data + ", ");
+                current = current.next;
+            }
+        }
+    }
+    public T elementAt(int index)
+    {
+        if (index == 0)
+        {
+            return head.data;
+        }
+        else
+        {
+            Node<T> current = head;
+            for (int i = 0; i <= index; i++) {
+                if (i == index)
+                {
+                    return current.data;
+                }
+                // output += (current.data + ", ");
+                current = current.next;
+            }
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    public void printReverse() {
+        String output = "";
+        Node<T> current = head;
+        while (current != null) {
+            output = current.data + ", " + output;
+            current = current.next;
+        }
+        output += "]";
+        output = "[" + output;
         System.out.println(output);
     }
     public void insertAfter(int index, T data) {
@@ -94,6 +140,25 @@ public class SinglyLinkedList<T> {
             newNode.next = current.next;
             current.next = newNode;
         }
+    }
+
+    public void removeLast() {
+        if (head == null || head.next == null) {
+            // If the list is empty or has only one element, set head to null
+            head = null;
+            return;
+        }
+
+        Node<T> current = head;
+        Node<T> previous = null;
+
+        while (current.next != null) {
+            previous = current;
+            current = current.next;
+        }
+
+        // Set the next reference of the second-to-last node to null
+        previous.next = null;
     }
 
     public void remove(T data) {
@@ -221,7 +286,12 @@ public class SinglyLinkedList<T> {
         disciples.print();
 
         disciples.sort(Comparator.naturalOrder());
-        disciples.printReverse();
+        disciples.print();
+
+        disciples.insertAfter(1, "hello");;
+        disciples.removeLast();
+        disciples.print();
+
 
     }
 
