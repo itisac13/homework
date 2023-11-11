@@ -3,6 +3,7 @@ import java.util.List;
 public class HugeInt {
     private SinglyLinkedList<Character> numberList = new SinglyLinkedList<>();
 
+    // Private constructor used internally
     private HugeInt(String numberStr) {
         if (numberStr.length() == 0)
         {
@@ -29,7 +30,36 @@ public class HugeInt {
     {
         return this.numberList.toString();
     }
+    private static HugeInt tenComplement(HugeInt num) {
+        // Calculate the ten's complement of a number
+        HugeInt complement = new HugeInt("");
 
+        for (int i = 0; i < num.numberOfDigits(); i++) {
+            char currentDigit = num.digitAt(i);
+            int complementDigit = 9 - (currentDigit - '0');
+            complement.prependDigit((char) (complementDigit + '0'));
+        }
+
+        // Add 1 to complete the ten's complement
+        complement = add(complement, new HugeInt("1"));
+
+        return complement;
+    }
+
+    // this still needs to be fixed but I'm sure you get what it's supposed to do
+    public static HugeInt multiply(HugeInt a, HugeInt b)
+    {
+        HugeInt output = new HugeInt("0");
+        HugeInt counter = new HugeInt("0");
+        while (true)
+        {
+            output = HugeInt.add(output, b);
+            counter = HugeInt.add(counter, new HugeInt("1"));
+            if (counter.compareTo(a) == 0)
+                break;
+        }
+        return output;
+    }
     public static HugeInt add(HugeInt a, HugeInt b)
     {
         while (a.numberOfDigits() > b.numberOfDigits())
@@ -147,10 +177,10 @@ public class HugeInt {
 
 
     public static void main(String[] args) {
-        HugeInt n1 = new HugeInt("120");
-        HugeInt n2 = new HugeInt("120");
+        HugeInt n1 = new HugeInt("12");
+        HugeInt n2 = new HugeInt("12");
 
         // System.out.println(n1);
-        System.out.println(n2.compareTo(n1));
+        // System.out.println(HugeInt.multiply(n1, n2));
     }
 }
